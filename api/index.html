@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <info-form v-on:fetch-movie="fetchMovie"></info-form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.2/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var Form = {
+            data: function() {
+                return {
+                    keyword: ''
+                }
+            },
+            template: 
+            `<div>
+                <input v-model="keyword" placeholder="도서 이름">
+                <button v-on:click="submitKeyword">검색</button>
+            </div>`,
+            methods: {
+                submitKeyword: function() {
+                    this.$emit('fetch-movie', this.keyword)
+                }
+            }
+        }
+
+        new Vue({
+            el: '#app',
+            data: {
+                movies: []
+            },
+            methods: {
+                fetchMovie(keyword) {
+                    const key = '';
+                    axios({
+                        method: 'get',
+                        url: `https://dapi.kakao.com/v3/search/book?query=${keyword}&sort=accuracy&target=title`,
+                        headers: {
+                            Authorization: `KakaoAK ${key}`
+                        }
+                    }).then(({data}) => console.log(data))
+                }
+            },
+            components: {
+                infoForm: Form
+            }
+        }) 
+    </script>
+</body>
+</html>
