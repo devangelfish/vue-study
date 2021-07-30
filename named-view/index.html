@@ -26,6 +26,10 @@
         var Landing = { template: '<p>Landing Page</p>' }
         var Footer = { template: '<div>copyright footer</div>' }
 
+        var LoginHeader = { template: '<h1>Login Header</h1>' }
+        var LoginLanding = { template: '<p>Login Landing Page</p>' }
+        var LoginFooter = { template: '<div>Login copyright footer</div>' }
+
         var routes = [
             { 
                 path: '/',
@@ -33,6 +37,14 @@
                     header: Header,
                     default: Landing,
                     footer: Footer
+                }
+            },
+            { 
+                path: '/login',
+                components: {
+                    header: LoginHeader,
+                    default: LoginLanding,
+                    footer: LoginFooter
                 }
             }
         ]
