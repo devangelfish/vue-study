@@ -2,7 +2,7 @@
   <div>
     <transition-group name="list" tag="ul">
       <li
-        v-for="(todoItem, index) in this.$store.state.todoItems"
+        v-for="(todoItem, index) in this.todoItems"
         v-bind:key="todoItem.item"
       >
         <span class="icon-wrapper left" v-on:click="callCompleteTodo(index)">
@@ -24,14 +24,17 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   methods: {
-    callDeleteTodo(index) {
-      this.$store.commit("deleteTodo", index);
-    },
-    callCompleteTodo(todoItem) {
-      this.$store.commit("completeTodo", todoItem);
-    },
+    ...mapMutations({
+      callDeleteTodo: "deleteTodo",
+      callCompleteTodo: "completeTodo",
+    }),
+  },
+  computed: {
+    ...mapGetters({ todoItems: "storedTodoItems" }),
   },
 };
 </script>

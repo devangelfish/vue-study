@@ -1,6 +1,6 @@
 <template>
   <div class="inputBox shadow" v-on:keyup.enter="callAddTodo">
-    <Modal v-if="isActive">
+    <Modal v-if="showModal">
       <h3 slot="title">
         경고
       </h3>
@@ -17,18 +17,20 @@
 
 <script>
 import Modal from "./common/Modal.vue";
+import { mapMutations } from "vuex";
 
 export default {
   data: () => ({
     newTodoItem: "",
-    isActive: false,
+    showModal: false,
   }),
   methods: {
+    ...mapMutations(["addTodo"]),
     callAddTodo() {
       if (this.checkEmpty(this.newTodoItem)) {
         return;
       }
-      this.$store.commit("addTodo", {
+      this.addTodo({
         completed: false,
         item: this.newTodoItem,
       });
@@ -42,7 +44,7 @@ export default {
       return false;
     },
     toggleModal() {
-      this.isActive = !this.isActive;
+      this.showModal = !this.showModal;
     },
     clearInput() {
       this.newTodoItem = "";

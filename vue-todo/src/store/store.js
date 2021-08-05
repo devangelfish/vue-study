@@ -20,7 +20,14 @@ const storage = {
 
 export const store = new Vuex.Store({
   state: {
+    newTodoItem: "",
     todoItems: storage.fetch(),
+    showModal: false,
+  },
+  getters: {
+    storedTodoItems(state) {
+      return state.todoItems;
+    },
   },
   mutations: {
     addTodo(state, newTodoItem) {
