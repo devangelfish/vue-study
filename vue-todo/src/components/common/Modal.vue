@@ -6,7 +6,11 @@
     <slot name="message">
       default message
     </slot>
-    <div id="btn" v-on:click="callHandler">확인</div>
+    <div id="btn" @click="callHandler">
+      <slot name="btn-name">
+        default name
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -14,7 +18,7 @@
 export default {
   methods: {
     callHandler() {
-      this.$emit("togglemodal");
+      this.$emit("closemodal");
     },
   },
 };

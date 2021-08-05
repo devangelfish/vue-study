@@ -1,8 +1,11 @@
 <template>
   <div>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.item">
-        <span class="icon-wrapper left" v-on:click="completeTodo(index)">
+      <li
+        v-for="(todoItem, index) in this.todoItems"
+        v-bind:key="todoItem.item"
+      >
+        <span class="icon-wrapper left" v-on:click="callCompleteTodo(index)">
           <font-awesome-icon
             icon="check"
             class="icon"
@@ -12,7 +15,7 @@
         <span v-bind:class="{ deleted: todoItem.completed }">
           {{ todoItem.item }}
         </span>
-        <span class="icon-wrapper right" v-on:click="deleteTodo(index)">
+        <span class="icon-wrapper right" v-on:click="callDeleteTodo(index)">
           <font-awesome-icon class="icon" icon="times"></font-awesome-icon>
         </span>
       </li>
@@ -21,15 +24,17 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
-  props: ["todoItems"],
   methods: {
-    deleteTodo(index) {
-      this.$emit("delete-todo", index);
-    },
-    completeTodo(todoItem) {
-      this.$emit("complete-todo", todoItem);
-    },
+    ...mapMutations({
+      callDeleteTodo: "deleteTodo",
+      callCompleteTodo: "completeTodo",
+    }),
+  },
+  computed: {
+    ...mapGetters({ todoItems: "storedTodoItems" }),
   },
 };
 </script>
