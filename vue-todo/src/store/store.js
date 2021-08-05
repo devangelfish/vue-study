@@ -30,9 +30,31 @@ export const store = new Vuex.Store({
     },
   },
   mutations: {
-    addTodo(state, newTodoItem) {
-      sessionStorage.setItem(newTodoItem.item, JSON.stringify(newTodoItem));
-      state.todoItems.push(newTodoItem);
+    updateInput(state, { target: { value } }) {
+      state.newTodoItem = value;
+    },
+    addTodo(state) {
+      if (state.newTodoItem == "") {
+        showModal();
+        return;
+      } else {
+        const object = getObject();
+        sessionStorage.setItem(object.item, JSON.stringify(object));
+        state.todoItems.push(object);
+        clearInput();
+      }
+      function clearInput() {
+        state.newTodoItem = "";
+      }
+      function getObject() {
+        return {
+          item: state.newTodoItem,
+          completed: false,
+        };
+      }
+      function showModal() {
+        state.showModal = true;
+      }
     },
     clearAll(state) {
       state.todoItems = [];
@@ -48,6 +70,9 @@ export const store = new Vuex.Store({
         state.todoItems[index],
         JSON.stringify(state.todoItems[index])
       );
+    },
+    closeModal(state) {
+      state.showModal = false;
     },
   },
 });

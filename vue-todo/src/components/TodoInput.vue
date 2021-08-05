@@ -1,15 +1,18 @@
 <template>
-  <div class="inputBox shadow" v-on:keyup.enter="callAddTodo">
-    <Modal v-if="showModal">
+  <div class="inputBox shadow" @keyup.enter="addTodo(newTodoItem)">
+    <Modal v-if="showModal" @closemodal="closeModal">
       <h3 slot="title">
         경고
       </h3>
       <p slot="message">
         내용이 없습니다.
       </p>
+      <span slot="btn-name">
+        확인
+      </span>
     </Modal>
-    <input type="text" v-model="newTodoItem" />
-    <span class="add" v-on:click="callAddTodo">
+    <input type="text" :value="newTodoItem" @input="updateInput" />
+    <span class="add" @click="addTodo(newTodoItem)">
       <font-awesome-icon icon="check" id="add-btn"></font-awesome-icon>
     </span>
   </div>
@@ -17,38 +20,14 @@
 
 <script>
 import Modal from "./common/Modal.vue";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
-  data: () => ({
-    newTodoItem: "",
-    showModal: false,
-  }),
+  computed: {
+    ...mapState(["newTodoItem", "showModal"]),
+  },
   methods: {
-    ...mapMutations(["addTodo"]),
-    callAddTodo() {
-      if (this.checkEmpty(this.newTodoItem)) {
-        return;
-      }
-      this.addTodo({
-        completed: false,
-        item: this.newTodoItem,
-      });
-      this.clearInput();
-    },
-    checkEmpty(item) {
-      if (item === "") {
-        this.toggleModal();
-        return true;
-      }
-      return false;
-    },
-    toggleModal() {
-      this.showModal = !this.showModal;
-    },
-    clearInput() {
-      this.newTodoItem = "";
-    },
+    ...mapMutations(["addTodo", "updateInput", "closeModal"]),
   },
   components: {
     Modal,
