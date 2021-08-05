@@ -38,19 +38,16 @@ export const store = new Vuex.Store({
         showModal();
         return;
       } else {
-        const object = getObject();
+        const object = {
+          item: state.newTodoItem,
+          completed: false,
+        };
         sessionStorage.setItem(object.item, JSON.stringify(object));
         state.todoItems.push(object);
         clearInput();
       }
       function clearInput() {
         state.newTodoItem = "";
-      }
-      function getObject() {
-        return {
-          item: state.newTodoItem,
-          completed: false,
-        };
       }
       function showModal() {
         state.showModal = true;
