@@ -1,14 +1,14 @@
 <template>
   <div>
-    <span id="cls-btn" class="shadow" v-on:click="clearAll">Clear</span>
+    <span id="cls-btn" class="shadow" v-on:click="callClearAll">Clear</span>
   </div>
 </template>
 
 <script>
 export default {
   methods: {
-    clearAll() {
-      this.$emit("clear-all");
+    callClearAll() {
+      this.$store.commit("clearAll");
     },
   },
 };

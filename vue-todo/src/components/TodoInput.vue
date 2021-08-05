@@ -1,6 +1,6 @@
 <template>
   <div class="inputBox shadow" v-on:keyup.enter="callAddTodo">
-    <Modal v-if="isActive" v-on:togglemodal="toggleModal">
+    <Modal v-if="isActive">
       <h3 slot="title">
         경고
       </h3>
@@ -25,13 +25,21 @@ export default {
   }),
   methods: {
     callAddTodo() {
-      if (this.newTodoItem === "") {
-        this.isActive = !this.isActive;
+      if (this.checkEmpty(this.newTodoItem)) {
         return;
-      } else {
-        this.$emit("call-add-todo", this.newTodoItem);
-        this.clearInput();
       }
+      this.$store.commit("addTodo", {
+        completed: false,
+        item: this.newTodoItem,
+      });
+      this.clearInput();
+    },
+    checkEmpty(item) {
+      if (item === "") {
+        this.toggleModal();
+        return true;
+      }
+      return false;
     },
     toggleModal() {
       this.isActive = !this.isActive;

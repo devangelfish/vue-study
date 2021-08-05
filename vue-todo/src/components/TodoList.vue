@@ -1,8 +1,11 @@
 <template>
   <div>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.item">
-        <span class="icon-wrapper left" v-on:click="completeTodo(index)">
+      <li
+        v-for="(todoItem, index) in this.$store.state.todoItems"
+        v-bind:key="todoItem.item"
+      >
+        <span class="icon-wrapper left" v-on:click="callCompleteTodo(index)">
           <font-awesome-icon
             icon="check"
             class="icon"
@@ -12,7 +15,7 @@
         <span v-bind:class="{ deleted: todoItem.completed }">
           {{ todoItem.item }}
         </span>
-        <span class="icon-wrapper right" v-on:click="deleteTodo(index)">
+        <span class="icon-wrapper right" v-on:click="callDeleteTodo(index)">
           <font-awesome-icon class="icon" icon="times"></font-awesome-icon>
         </span>
       </li>
@@ -22,13 +25,12 @@
 
 <script>
 export default {
-  props: ["todoItems"],
   methods: {
-    deleteTodo(index) {
-      this.$emit("delete-todo", index);
+    callDeleteTodo(index) {
+      this.$store.commit("deleteTodo", index);
     },
-    completeTodo(todoItem) {
-      this.$emit("complete-todo", todoItem);
+    callCompleteTodo(todoItem) {
+      this.$store.commit("completeTodo", todoItem);
     },
   },
 };
