@@ -20,11 +20,12 @@
 
 <script>
 import Modal from "./common/Modal.vue";
-import { mapMutations, mapState } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["newTodoItem", "showModal"]),
+    ...mapState(["showModal"]),
+    ...mapGetters(["newTodoItem"]),
   },
   methods: {
     ...mapMutations(["addTodo", "updateInput", "closeModal"]),
